@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <title>CDJ-Style 4-Deck DJ</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+  <div class="panel" style="flex:1 1 100%">
+    <div class="row" style="align-items:center; justify-content:space-between">
+      <div class="inline">
+        <h2>CDJ-Style 4-Deck DJ</h2>
+        <span class="badge">PWA</span>
+        <span class="badge">Web Audio API</span>
+      </div>
+      <div class="inline">
+        <span class="badge">Key-Lock</span>
+        <span class="warn">Pitch changes with tempo (demo)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div id="deckA" class="panel deck"></div>
+    <div id="deckB" class="panel deck"></div>
+    <div id="deckC" class="panel deck"></div>
+    <div id="deckD" class="panel deck"></div>
+  </div>
+
+  <div class="panel mixer">
+    <div id="chanA" class="channel"></div>
+    <div id="chanB" class="channel"></div>
+    <div id="chanC" class="channel"></div>
+    <div id="chanD" class="channel"></div>
+    <div class="panel">
+      <h3>Mixer</h3>
+      <label>Crossfader</label>
+      <input id="crossfader" class="crossfader" type="range" min="0" max="1" step="0.001" value="0.5">
+      <div class="grid cols-2">
+        <div>
+          <label>Cue/Master Mix</label>
+          <input id="cueMix" type="range" min="0" max="1" step="0.01" value="1">
+        </div>
+        <div>
+          <label>Cue Level</label>
+          <input id="cueLevel" type="range" min="0" max="2" step="0.01" value="1">
+        </div>
+      </div>
+      <div style="margin-top:8px">
+        <label>Master Volume</label>
+        <input id="master" type="range" min="0" max="2" step="0.01" value="1">
+        <div class="section-title">Master VU</div>
+        <div class="vu"><div id="masterVu" class="bar"></div></div>
+      </div>
+      <div class="section-title">Channel Assign</div>
+      <div class="grid cols-2">
+        <div class="inline"><label>A side</label><select id="assignLeft"><option>A</option><option selected>B</option><option>C</option><option>D</option></select></div>
+        <div class="inline"><label>B side</label><select id="assignRight"><option>A</option><option>B</option><option selected>C</option><option>D</option></select></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="ytPanel" class="panel hidden" style="min-width:320px">
+    <h3>YouTube Search</h3>
+    <p class="warn">Search/metadata only. No streaming/downloading.</p>
+    <div class="inline" style="gap:8px">
+      <input id="ytQuery" placeholder="Search YouTube…" style="padding:8px;border-radius:8px;border:1px solid #283048;background:#0b0f18;color:#fff;width:220px">
+      <button id="ytSearch" class="btn">Search</button>
+    </div>
+    <div id="ytResults" class="search-results"></div>
+  </div>
+
+  <div class="panel" style="flex:1 1 100%">
+    <div class="footer">PWA build — works offline after first load. Load your own audio files to mix. Respect streaming ToS.</div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', ()=>{
+      navigator.serviceWorker.register('./sw.js').catch(console.error);
+    });
+  }
+</script>
+</body>
+</html>
